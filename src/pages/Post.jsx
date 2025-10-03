@@ -11,17 +11,16 @@ export default function Post() {
     const navigate = useNavigate();
   
     const userData = useSelector((state) => state.auth.userData);
-      console.log(userData);
-      console.log(post);
+  
+useEffect(() => {
+       if (slug) {
+        appwriteService.getPost(slug).then((post) => {
+            if (post) setPost(post);
+            else navigate("/");
+        });
+    } else navigate("/");
+}, [slug, navigate, userData]);
 
-    useEffect(() => {
-        if (slug) {
-            appwriteService.getPost(slug).then((post) => {
-                if (post) setPost(post);
-                else navigate("/");
-            });
-        } else navigate("/");
-    }, [slug, navigate]);
 
     const deletePost = () => {
         appwriteService.deletePost(post.$id).then((status) => {
