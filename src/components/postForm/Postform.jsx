@@ -36,30 +36,15 @@ export default function PostForm({ post }) {
             }
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
-            // console.log("userData:", userData);
-
 
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                try {
-                    const postData = {
-    ...data,
-    userID: userData.$id
-};
+                const dbPost = await appwriteService.createPost({ ...data, userID: userData.$id });
 
-// Remove undefined fields
-Object.keys(postData).forEach(key => postData[key] === undefined && delete postData[key]);
-
-const dbPost = await appwriteService.createPost(postData);
-
-                //    const dbPost = await appwriteService.createPost({ ...data, userID: userData.$id });
-                    if (dbPost) {
+                if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }
-                } catch(err) {
-                   console.error("Failed to create post:", err);
-                }               
             }
         }
     };

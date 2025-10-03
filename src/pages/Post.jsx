@@ -9,10 +9,10 @@ export default function Post() {
     const [post, setPost] = useState(null);
     const { slug } = useParams();
     const navigate = useNavigate();
-
+  
     const userData = useSelector((state) => state.auth.userData);
-
-    const isAuthor = post && userData ? post.userId === userData.$id : false;
+      console.log(userData);
+      console.log(post);
 
     useEffect(() => {
         if (slug) {
@@ -35,32 +35,34 @@ export default function Post() {
     return post ? (
         <div className="py-8">
             <Container>
-                <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-                    <img
-                        src={appwriteService.getFilePreview(post.featuredImage)}
-                        alt={post.title}
-                        className="rounded-xl"
-                    />
+                {/* Image Box */}
+                <div className="relative w-full flex justify-center mb-4">
+                    <div className="relative border rounded-xl overflow-auto max-h-[400px]">
+                        <img
+                            src={appwriteService.getFilePreview(post.featuredImage)}
+                            alt={post.title}
+                            className="rounded-xl object-contain max-h-[400px]"
+                        />
 
-                    {isAuthor && (
-                        <div className="absolute right-6 top-6">
+                        {/* Edit/Delete Buttons - hidden by default, visible on hover */}
+                        <div className="absolute top-2 right-2 opacity-0 hover:opacity-100 transition-opacity duration-300 flex space-x-3">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3">
-                                    Edit
-                                </Button>
+                                <Button bgColor="bg-green-500">Edit</Button>
                             </Link>
                             <Button bgColor="bg-red-500" onClick={deletePost}>
                                 Delete
                             </Button>
                         </div>
-                    )}
-                </div>
-                <div className="w-full mb-6">
-                    <h1 className="text-2xl font-bold">{post.title}</h1>
-                </div>
-                <div className="browser-css">
-                    {parse(post.content)}
                     </div>
+                </div>
+
+                {/* Title and Content Box (50% width) */}
+                <div className="w-1/2 mx-auto mb-6 border rounded-xl p-4 shadow-md bg-white">
+                    <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
+                    <div className="browser-css overflow-auto max-h-[500px]">
+                        {parse(post.content)}
+                    </div>
+                </div>
             </Container>
         </div>
     ) : null;

@@ -17,7 +17,7 @@ export class Service{
 
     async createPost({title, slug, content, featuredImage, status, userID}){
         try {
-            return await this.databases.createDocument(
+               return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug,
@@ -45,7 +45,6 @@ export class Service{
                     content,
                     featuredImage,
                     status,
-
                 }
             )
         } catch (error) {
@@ -58,8 +57,7 @@ export class Service{
             await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                slug
-            
+                slug            
             )
             return true
         } catch (error) {
@@ -74,7 +72,6 @@ export class Service{
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
-            
             )
         } catch (error) {
             console.log("Appwrite serive :: getPost :: error", error);
@@ -126,7 +123,7 @@ export class Service{
     }
 
     getFilePreview(fileId){
-        return this.bucket.getFilePreview(
+         return this.bucket.getFileView(
             conf.appwriteBucketId,
             fileId
         )
