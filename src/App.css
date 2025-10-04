@@ -9,14 +9,20 @@
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  will-change: filter, transform;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(100, 108, 255, 0.3));
+  border-radius: 50%;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2.5em #646cffaa) drop-shadow(0 0 1em #646cff55);
+  transform: translateY(-8px) scale(1.05);
 }
+
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2.5em #61dafbaa) drop-shadow(0 0 1em #61dafb55);
+  transform: translateY(-8px) scale(1.05) rotate(5deg);
 }
 
 @keyframes logo-spin {
@@ -28,16 +34,340 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 1em #646cff44);
+  }
+  50% {
+    filter: drop-shadow(0 0 2em #646cff88);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+    animation: logo-spin infinite 20s linear, float 3s ease-in-out infinite;
+  }
+  
+  .logo {
+    animation: glow-pulse 2s ease-in-out infinite;
   }
 }
 
 .card {
-  padding: 2em;
+  padding: 2.5em;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.card:hover::before {
+  left: 100%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 12px 40px rgba(100, 108, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(100, 108, 255, 0.3);
 }
 
 .read-the-docs {
-  color: #888;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.read-the-docs::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #646cff, #00d4ff);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.read-the-docs:hover {
+  color: rgba(255, 255, 255, 0.95);
+  transform: translateX(4px);
+}
+
+.read-the-docs:hover::after {
+  width: 100%;
+}
+
+@media (prefers-color-scheme: light) {
+  .logo {
+    filter: drop-shadow(0 4px 12px rgba(100, 108, 255, 0.2));
+  }
+  
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cff88) drop-shadow(0 0 0.8em #646cff44);
+  }
+  
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafb88) drop-shadow(0 0 0.8em #61dafb44);
+  }
+  
+  @keyframes glow-pulse-light {
+    0%, 100% {
+      filter: drop-shadow(0 4px 12px rgba(100, 108, 255, 0.15));
+    }
+    50% {
+      filter: drop-shadow(0 4px 16px rgba(100, 108, 255, 0.3));
+    }
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .logo {
+      animation: glow-pulse-light 2s ease-in-out infinite;
+    }
+  }
+  
+  .card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 108, 255, 0.15);
+    box-shadow: 
+      0 8px 32px rgba(100, 108, 255, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+  
+  .card::before {
+    background: linear-gradient(90deg, transparent, rgba(100, 108, 255, 0.05), transparent);
+  }
+  
+  .card:hover {
+    box-shadow: 
+      0 12px 40px rgba(100, 108, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    border-color: rgba(100, 108, 255, 0.3);
+  }
+  
+  .read-the-docs {
+    color: rgba(26, 26, 46, 0.65);
+  }
+  
+  .read-the-docs:hover {
+    color: rgba(26, 26, 46, 0.95);
+  }
+}#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter, transform;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(100, 108, 255, 0.3));
+  border-radius: 50%;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2.5em #646cffaa) drop-shadow(0 0 1em #646cff55);
+  transform: translateY(-8px) scale(1.05);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2.5em #61dafbaa) drop-shadow(0 0 1em #61dafb55);
+  transform: translateY(-8px) scale(1.05) rotate(5deg);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 1em #646cff44);
+  }
+  50% {
+    filter: drop-shadow(0 0 2em #646cff88);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear, float 3s ease-in-out infinite;
+  }
+  
+  .logo {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+}
+
+.card {
+  padding: 2.5em;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.card:hover::before {
+  left: 100%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 12px 40px rgba(100, 108, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(100, 108, 255, 0.3);
+}
+
+.read-the-docs {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.read-the-docs::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #646cff, #00d4ff);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.read-the-docs:hover {
+  color: rgba(255, 255, 255, 0.95);
+  transform: translateX(4px);
+}
+
+.read-the-docs:hover::after {
+  width: 100%;
+}
+
+@media (prefers-color-scheme: light) {
+  .logo {
+    filter: drop-shadow(0 4px 12px rgba(100, 108, 255, 0.2));
+  }
+  
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cff88) drop-shadow(0 0 0.8em #646cff44);
+  }
+  
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafb88) drop-shadow(0 0 0.8em #61dafb44);
+  }
+  
+  @keyframes glow-pulse-light {
+    0%, 100% {
+      filter: drop-shadow(0 4px 12px rgba(100, 108, 255, 0.15));
+    }
+    50% {
+      filter: drop-shadow(0 4px 16px rgba(100, 108, 255, 0.3));
+    }
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .logo {
+      animation: glow-pulse-light 2s ease-in-out infinite;
+    }
+  }
+  
+  .card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 108, 255, 0.15);
+    box-shadow: 
+      0 8px 32px rgba(100, 108, 255, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+  
+  .card::before {
+    background: linear-gradient(90deg, transparent, rgba(100, 108, 255, 0.05), transparent);
+  }
+  
+  .card:hover {
+    box-shadow: 
+      0 12px 40px rgba(100, 108, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    border-color: rgba(100, 108, 255, 0.3);
+  }
+  
+  .read-the-docs {
+    color: rgba(26, 26, 46, 0.65);
+  }
+  
+  .read-the-docs:hover {
+    color: rgba(26, 26, 46, 0.95);
+  }
 }
