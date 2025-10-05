@@ -9,6 +9,7 @@ function AllPosts() {
         if (posts) {
             setPosts(posts.documents)
         }
+       
     })
   return (
     <div className='w-full py-8'>

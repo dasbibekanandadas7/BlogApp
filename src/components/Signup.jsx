@@ -10,14 +10,13 @@ function Signup() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
     const dispatch = useDispatch()
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, formState: { errors }} = useForm()
 
     const create = async(data) => {
         setError("")
         try {
             const userData = await authService.createAccount(data)
             if (userData) {
-                const userData = await authService.getCurrentUser()
                 if(userData) dispatch(login(userData));
                 navigate("/")
             }
@@ -67,6 +66,9 @@ function Signup() {
                             }
                         })}
                         />
+                        {errors.email && (
+                        <p className="text-red-500 text-sm">{errors.email.message}</p>
+                         )}
                         <Input
                         label="Password: "
                         type="password"
@@ -74,6 +76,9 @@ function Signup() {
                         {...register("password", {
                             required: true,})}
                         />
+                        {errors.password && (
+                        <p className="text-red-500 text-sm">{errors.password.message}</p> 
+                        )} 
                         <Button type="submit" className="w-full">
                             Create Account
                         </Button>
