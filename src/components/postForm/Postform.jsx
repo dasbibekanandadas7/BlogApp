@@ -16,7 +16,10 @@ export default function PostForm({ post }) {
     });
 
     const navigate = useNavigate();
+    const fullState = useSelector((state) => state);
+    console.log("full state: ", fullState);
     const userData = useSelector((state) => state.auth.userData);
+    console.log(userData);
     
 
     const submit = async (data) => {
@@ -40,9 +43,7 @@ export default function PostForm({ post }) {
 
             if (file) {
                 const fileId = file.$id;
-
-                data.featuredImage = fileId;
-                
+                data.featuredImage = fileId;                
                 const dbPost = await appwriteService.createPost({ ...data, userID: userData.$id });
 
                 if (dbPost) {

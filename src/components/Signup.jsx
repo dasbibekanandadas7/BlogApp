@@ -9,16 +9,19 @@ import {useForm} from 'react-hook-form'
 function Signup() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
-    const dispatch = useDispatch()
+    const dispatch = useDispatch()-
     const {register, handleSubmit, formState: { errors }} = useForm()
 
     const create = async(data) => {
         setError("")
         try {
-            const userData = await authService.createAccount(data)
+            // const { name, email, password } = data;
+            await authService.createAccount(data); 
+            const userData = await authService.getCurrentUser();
+
             if (userData) {
-                if(userData) dispatch(login(userData));
-                navigate("/")
+                dispatch(login({userData}));
+                navigate("/"); 
             }
         } catch (error) {
             setError(error.message)
